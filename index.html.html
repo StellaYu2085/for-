@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>可以和小狗在一起吗</title>
+<style>
+    :root{--pink:#c84e68;--blue:#2271b3;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+        font-family:"Segoe UI","PingFang SC",Helvetica,Arial;
+        background:#f5e9ec;
+        display:flex;flex-direction:column;align-items:center;
+        min-height:100vh;padding:50px 16px 40px;text-align:center;
+        color:#4b304f;
+    }
+    h1{font-size:1.9rem;margin:24px 0 46px;line-height:1.4}
+    #dog{width:220px;max-width:60vw;user-select:none}
+    #buttons{display:flex;gap:28px;flex-wrap:wrap;justify-content:center}
+    button{border:none;cursor:pointer;transition:all .25s ease-out;color:#fff;font-weight:600}
+    #yes{background:var(--pink);border-radius:12px;font-size:28px;padding:22px 54px}
+    #no {background:var(--blue);border-radius:8px;font-size:18px;padding:14px 32px}
+    button:active{transform:scale(.96)}
+    #result{margin-top:50px;font-size:2rem;color:var(--pink);display:none}
+    @media(max-width:480px){
+        #yes{font-size:24px;padding:18px 44px}
+        #no {font-size:16px;padding:12px 26px}
+    }
+</style>
+</head>
+<body>
+
+    <!-- 初始用 狗狗1.jpg -->
+    <img id="dog" src="狗狗1.jpg" alt="dog">
+
+    <h1 id="title">可以和小狗在一起吗？</h1>
+
+    <div id="buttons">
+        <button id="yes">好</button>
+        <button id="no">不好</button>
+    </div>
+
+    <div id="result">你最好了嘿嘿~~</div>
+
+<script>
+(() => {
+    const dog      = document.getElementById('dog');
+    const yesBtn   = document.getElementById('yes');
+    const noBtn    = document.getElementById('no');
+    const buttons  = document.getElementById('buttons');
+    const result   = document.getElementById('result');
+
+    // “不好”按钮依次显示的文字
+    const phrases  = [
+        "可我很喜欢你嘛",
+        "不要不理我",
+        "呜呜呜呜呜",
+        "汪汪汪汪~",
+        "😭 求求你~"
+    ];
+
+    let phraseIdx = 0;  // 文字下标
+    let scale     = 1;  // “好”按钮缩放倍数
+    let noCount   = 0;  // 点击“不好”次数
+
+    // 点击“不好”
+    noBtn.addEventListener('click', () => {
+        // 1. 换按钮文字
+        noBtn.textContent = phrases[phraseIdx];
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+
+        // 2. 换狗狗表情
+        noCount++;
+        if (noCount === 1){
+            dog.src = "狗狗2.jpg";     // 第一次
+        } else if (noCount >= 2){
+            dog.src = "狗狗3.jpg";     // 以后固定第三张
+        }
+
+        // 3. 放大“好”按钮
+        scale += 0.3;
+        yesBtn.style.transform = `scale(${scale})`;
+    });
+
+    // 点击“不好”
+    yesBtn.addEventListener('click', () => {
+        dog.src = "狗狗4.jpg";    // 最后一张图
+        buttons.style.display = "none"; // 隐藏按钮
+        result.style.display  = "block"; // 显示文字
+    });
+})();
+</script>
+
+</body>
+</html>
